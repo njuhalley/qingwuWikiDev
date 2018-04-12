@@ -1,0 +1,23 @@
+2018/04/12 23:53:56.769 [I] [asm_amd64.s:2337] http server Running on http://:8282
+2018/04/12 23:54:07.505 [D] [server.go:2619] ::1 - - [12/Apr/2018 11:54:07] "GET / HTTP/1.1 200 0" 0.018647  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+
+2018/04/12 23:54:10.472 [D] [server.go:2619] ::1 - - [12/Apr/2018 11:54:10] "GET / HTTP/1.1 200 0" 0.012385  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+
+2018/04/12 23:54:10.588 [D] [server.go:2619] ::1 - - [12/Apr/2018 11:54:10] "GET /static/images/favicon.ico HTTP/1.1 200 0" 0.000000 http://localhost:8282/ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+
+2018/04/12 23:54:11.194 [D] [server.go:2619] ::1 - - [12/Apr/2018 11:54:11] "GET / HTTP/1.1 200 0" 0.009840 http://localhost:8282/ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+
+2018/04/12 23:54:14.116 [D] [server.go:2619] ::1 - - [12/Apr/2018 11:54:14] "GET /manager HTTP/1.1 200 0" 0.012759 http://localhost:8282/ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+
+2018/04/12 23:54:19.340 [D] [server.go:2619] ::1 - - [12/Apr/2018 11:54:19] "GET /manager/setting HTTP/1.1 200 0" 0.013737 http://localhost:8282/manager Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+
+2018/04/12 23:54:20.738 [D] [server.go:2619] ::1 - - [12/Apr/2018 11:54:20] "GET /manager HTTP/1.1 200 0" 0.011774 http://localhost:8282/manager/setting Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+
+2018/04/12 23:54:23.154 [D] [server.go:2619] ::1 - - [12/Apr/2018 11:54:23] "GET /manager HTTP/1.1 200 0" 0.010795 http://localhost:8282/manager Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+
+2018/04/12 23:54:26.087 [D] [server.go:2619] ::1 - - [12/Apr/2018 11:54:26] "GET /manager/setting HTTP/1.1 200 0" 0.008841 http://localhost:8282/manager Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+
+2018/04/12 23:57:57.170 [D] [server.go:2619] ::1 - - [12/Apr/2018 11:57:57] "GET /manager/setting HTTP/1.1 200 0" 0.007881 http://localhost:8282/manager Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+
+2018/04/12 23:57:57.280 [D] [server.go:2619] ::1 - - [12/Apr/2018 11:57:57] "GET /static/images/favicon.ico HTTP/1.1 200 0" 0.000000 http://localhost:8282/manager/setting Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+
