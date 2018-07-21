@@ -2,11 +2,12 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/lifei6671/mindoc/controllers"
+	"../controllers"  // "github.com/lifei6671/mindoc/controllers"
 )
 
 func init() {
 	beego.Router("/", &controllers.HomeController{}, "*:Index")
+	beego.Router("/qingwu",&controllers.QingwuController{}, "*:Index")
 
 	beego.Router("/login", &controllers.AccountController{}, "*:Login")
 	beego.Router("/logout", &controllers.AccountController{}, "*:Logout")

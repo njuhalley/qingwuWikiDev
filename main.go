@@ -11,7 +11,8 @@ import (
 	"github.com/kardianos/service"
 	"github.com/lifei6671/mindoc/commands"
 	"github.com/lifei6671/mindoc/commands/daemon"
-	_ "github.com/lifei6671/mindoc/routers"
+	_ "../QingwuWIKIDev/routers"
+	// _ "github.com/lifei6671/mindoc/routers"
 	_ "github.com/mattn/go-sqlite3"
 )
 
