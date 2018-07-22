@@ -33,6 +33,11 @@ func (c *QingwuController) Index() {
 	books, totalCount, err := models.NewBook().FindForHomeToPager(pageIndex, pageSize, member_id)
 
 	fmt.Println("---------------test------------------")
+	for i,book :=range books{
+		fmt.Println(i)
+		fmt.Println(book)
+	}
+	fmt.Println(books)
 	fmt.Println(totalCount)
 	fmt.Println("test")
 	fmt.Println("---------------test------------------")
