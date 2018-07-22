@@ -1,41 +1,35 @@
-2018/07/21 17:37:35.830 [I] [asm_amd64.s:2337] http server Running on http://:8282
-2018/07/21 17:37:43.736 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:37:43] "GET /qingwu/ HTTP/1.1 200 0" 0.024399  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:13.554 [I] [asm_amd64.s:2337] http server Running on http://:8282
+2018/07/22 10:40:27.898 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:27] "GET /qingwu/update_knowledge_graph HTTP/1.1 200 0" 0.026920 http://localhost:8282/qingwu/view_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:37:45.031 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:37:45] "GET /qingwu/performance-now.js.map HTTP/1.1 404 0" 0.011713  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:27.956 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:27] "GET /static/bootstrap/css/bootstrap.min.css HTTP/1.1 200 0" 0.021942 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:37:48.778 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:37:48] "GET /qingwu/ HTTP/1.1 200 0" 0.017569  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:27.971 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:27] "GET /uploads/201802/avatar_151190660efa01b0_small.png HTTP/1.1 200 0" 0.026926 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:37:49.931 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:37:49] "GET /qingwu/performance-now.js.map HTTP/1.1 404 0" 0.013664  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:27.986 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:27] "GET /uploads/201802/cover_1511f95674fa8e68_small.jpg HTTP/1.1 200 0" 0.041886 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:37:55.089 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:37:55] "GET /qingwu/ HTTP/1.1 200 0" 0.015615  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:28.068 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:27] "GET /static/jquery/1.12.4/jquery.min.js HTTP/1.1 200 0" 0.082733 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:37:55.499 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:37:55] "GET /static/images/favicon.ico HTTP/1.1 200 0" 0.001952 http://localhost:8282/qingwu/ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:28.081 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:27] "GET /uploads/201802/cover_1511f768300017b4_small.jpg HTTP/1.1 200 0" 0.091711 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:38:24.831 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:38:24] "GET /qingwu/ HTTP/1.1 200 0" 0.020496  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:28.088 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:28] "GET /uploads/201803/cover_15180d8912e3fb2c_small.jpg HTTP/1.1 200 0" 0.017952 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:38:25.296 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:38:25] "GET /static/images/favicon.ico HTTP/1.1 200 0" 0.000975 http://localhost:8282/qingwu/ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:28.124 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:27] "GET /static/bootstrap/js/bootstrap.min.js HTTP/1.1 200 0" 0.139581 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:40:20.175 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:40:20] "GET /qingwu/ HTTP/1.1 200 0" 0.028306  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:28.134 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:27] "GET /uploads/201802/cover_1511e5d3c3d1b1b0_small.jpg HTTP/1.1 200 0" 0.143572 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:40:20.729 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:40:20] "GET /static/images/favicon.ico HTTP/1.1 200 0" 0.000000 http://localhost:8282/qingwu/ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:28.149 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:27] "GET /static/font-awesome/css/font-awesome.min.css HTTP/1.1 200 0" 0.204409 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:40:21.898 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:40:21] "GET /qingwu/ HTTP/1.1 200 0" 0.020495  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:28.168 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:27] "GET /static/css/main.css HTTP/1.1 200 0" 0.224353 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:40:22.205 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:40:22] "GET /static/images/favicon.ico HTTP/1.1 200 0" 0.000977 http://localhost:8282/qingwu/ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:28.181 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:28] "GET /uploads/201802/cover_1511f54461fa690c_small.jpg HTTP/1.1 200 0" 0.098736 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:40:27.777 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:40:27] "GET / HTTP/1.1 200 0" 0.017566 http://localhost:8282/qingwu/ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:28.188 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:28] "GET /uploads/201803/cover_151ec5c513eceb14_small.jpg HTTP/1.1 200 0" 0.098737 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:40:29.288 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:40:29] "GET /tags HTTP/1.1 200 0" 0.017567 http://localhost:8282/ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:28.247 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:28] "GET /static/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0 HTTP/1.1 200 0" 0.017952 http://localhost:8282/static/font-awesome/css/font-awesome.min.css Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:40:30.580 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:40:30] "GET / HTTP/1.1 200 0" 0.017568 http://localhost:8282/tags Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:28.415 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:28] "GET /static/images/favicon.ico HTTP/1.1 200 0" 0.000997 http://localhost:8282/qingwu/update_knowledge_graph Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:40:31.244 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:40:31] "GET / HTTP/1.1 200 0" 0.026351 http://localhost:8282/ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:40.614 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:36] "GET /qingwu/ HTTP/1.1 200 0" 4.310982  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 
-2018/07/21 17:40:31.792 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:40:31] "GET /tags HTTP/1.1 200 0" 0.027328 http://localhost:8282/ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
-
-2018/07/21 17:42:31.954 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:42:31] "GET / HTTP/1.1 200 0" 0.020498 http://localhost:8282/tags Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
-
-2018/07/21 17:42:33.584 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:42:33] "GET /docs/schedules HTTP/1.1 200 0" 0.023423 http://localhost:8282/ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
-
-2018/07/21 17:42:33.627 [D] [server.go:2619] ::1 - - [21/Jul/2018 05:42:33] "GET /qrcode/schedules.png HTTP/1.1 200 0" 0.010736 http://localhost:8282/docs/schedules Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+2018/07/22 10:40:40.621 [D] [server.go:2619] ::1 - - [22/Jul/2018 10:40:32] "GET /qingwu/ HTTP/1.1 200 0" 8.319966  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
 

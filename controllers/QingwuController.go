@@ -8,6 +8,7 @@ import (
 	"github.com/lifei6671/mindoc/conf"
 	"github.com/lifei6671/mindoc/models"
 	"github.com/lifei6671/mindoc/utils/pagination"
+	"fmt"
 )
 
 type QingwuController struct {
@@ -30,6 +31,11 @@ func (c *QingwuController) Index() {
 		member_id = c.Member.MemberId
 	}
 	books, totalCount, err := models.NewBook().FindForHomeToPager(pageIndex, pageSize, member_id)
+
+	fmt.Println("---------------test------------------")
+	fmt.Println(totalCount)
+	fmt.Println("test")
+	fmt.Println("---------------test------------------")
 
 	if err != nil {
 		beego.Error(err)
