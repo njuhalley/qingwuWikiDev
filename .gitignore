@@ -6,7 +6,7 @@
 *.o
 *.a
 *.so
-
+uploads/qingwu
 commit.bat
 
 # Folders

@@ -8,7 +8,6 @@ import (
 	"github.com/lifei6671/mindoc/conf"
 	"github.com/lifei6671/mindoc/models"
 	"github.com/lifei6671/mindoc/utils/pagination"
-	"fmt"
 )
 
 type QingwuController struct {
@@ -18,90 +17,23 @@ type QingwuController struct {
 func (c *QingwuController) Index() {
 	c.Prepare()
 	c.TplName = "qingwu/index.tpl"
+	c.Data["JSON_NAME"] = "book_list"
+
 	//如果没有开启匿名访问，则跳转到登录页面
 	if !c.EnableAnonymous && c.Member == nil {
 		c.Redirect(conf.URLFor("AccountController.Login")+"?url="+url.PathEscape(conf.BaseUrl+c.Ctx.Request.URL.RequestURI()), 302)
-	}
-	pageIndex, _ := c.GetInt("page", 1)
-	pageSize := 18
-
-	member_id := 0
-
-	if c.Member != nil {
-		member_id = c.Member.MemberId
-	}
-	books, totalCount, err := models.NewBook().FindForHomeToPager(pageIndex, pageSize, member_id)
-
-	fmt.Println("---------------test------------------")
-	for i,book :=range books{
-		fmt.Println(i)
-		fmt.Println(book)
-	}
-	fmt.Println(books)
-	fmt.Println(totalCount)
-	fmt.Println("test")
-	fmt.Println("---------------test------------------")
-
-	if err != nil {
-		beego.Error(err)
-		c.Abort("500")
-	}
-	if totalCount > 0 {
-		pager := pagination.NewPagination(c.Ctx.Request, totalCount, pageSize, c.BaseUrl())
-		c.Data["PageHtml"] = pager.HtmlPages()
-	} else {
-		c.Data["PageHtml"] = ""
-	}
-	c.Data["TotalPages"] = int(math.Ceil(float64(totalCount) / float64(pageSize)))
-
-	c.Data["Lists"] = books
-
-	labels, totalCount, err := models.NewLabel().FindToPager(1, 10)
-
-	if err != nil {
-		c.Data["Labels"] = make([]*models.Label, 0)
-	} else {
-		c.Data["Labels"] = labels
 	}
 }
 
 func (c *QingwuController) ViewKnowledgeGraph() {
 	c.Prepare()
-	c.TplName = "qingwu/view_kg.tpl"
+	c.TplName = "qingwu/index.tpl"
+	var book_id = c.GetString(":book_id")
+	c.Data["JSON_NAME"] = "book_" + book_id
+
 	//如果没有开启匿名访问，则跳转到登录页面
 	if !c.EnableAnonymous && c.Member == nil {
 		c.Redirect(conf.URLFor("AccountController.Login")+"?url="+url.PathEscape(conf.BaseUrl+c.Ctx.Request.URL.RequestURI()), 302)
-	}
-	pageIndex, _ := c.GetInt("page", 1)
-	pageSize := 18
-
-	member_id := 0
-
-	if c.Member != nil {
-		member_id = c.Member.MemberId
-	}
-	books, totalCount, err := models.NewBook().FindForHomeToPager(pageIndex, pageSize, member_id)
-
-	if err != nil {
-		beego.Error(err)
-		c.Abort("500")
-	}
-	if totalCount > 0 {
-		pager := pagination.NewPagination(c.Ctx.Request, totalCount, pageSize, c.BaseUrl())
-		c.Data["PageHtml"] = pager.HtmlPages()
-	} else {
-		c.Data["PageHtml"] = ""
-	}
-	c.Data["TotalPages"] = int(math.Ceil(float64(totalCount) / float64(pageSize)))
-
-	c.Data["Lists"] = books
-
-	labels, totalCount, err := models.NewLabel().FindToPager(1, 10)
-
-	if err != nil {
-		c.Data["Labels"] = make([]*models.Label, 0)
-	} else {
-		c.Data["Labels"] = labels
 	}
 }
 
