@@ -25,6 +25,7 @@ import (
 	"github.com/lifei6671/mindoc/conf"
 	"github.com/lifei6671/mindoc/models"
 	"github.com/lifei6671/mindoc/utils/filetil"
+	//"github.com/astaxie/beego/config"
 )
 
 // RegisterDataBase 注册数据库
