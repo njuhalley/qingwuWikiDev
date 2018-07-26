@@ -9,7 +9,8 @@ func init() {
 	beego.Router("/", &controllers.HomeController{}, "*:Index")
 	beego.Router("/qingwu",&controllers.QingwuController{}, "*:Index")
 	beego.Router("/qingwu/view_knowledge_graph/:book_id",&controllers.QingwuController{}, "*:ViewKnowledgeGraph")
-	beego.Router("/qingwu/update_knowledge_graph/:book_id",&controllers.QingwuController{}, "*:UpdateKnowledgeGraph")
+	beego.Router("/qingwu/view_sub_knowledge_graph/:doc_id",&controllers.QingwuController{}, "*:ViewSubKnowledgeGraph")
+	beego.Router("/qingwu/update_knowledge_graph",&controllers.QingwuController{}, "*:UpdateKnowledgeGraph")
 
 	beego.Router("/login", &controllers.AccountController{}, "*:Login")
 	beego.Router("/logout", &controllers.AccountController{}, "*:Logout")
