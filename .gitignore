@@ -32,3 +32,5 @@ _testmain.go
 .idea
 /conf/app.conf
 /vendor
+
+login_copyright.tpl
