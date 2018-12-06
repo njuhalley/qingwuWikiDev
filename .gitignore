@@ -26,3 +26,7 @@ _testmain.go
 /conf/app.conf
 /vendor
 /runtime
+
+# -----Added by Qingwu
+logs
+.github
