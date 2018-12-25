@@ -3,4 +3,7 @@
 	url = git://github.com/njuhalley/static
 [submodule "views"]
 	path = views
-	url = git://github.com/njuhalley/views
+	url = git://github.com/njuhalley/QingwuWIKI-views
+[submodule "uploads"]
+	path = uploads
+	url = git://github.com/njuhalley/uploads
