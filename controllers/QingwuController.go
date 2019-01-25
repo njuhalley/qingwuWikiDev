@@ -73,6 +73,7 @@ func (c *QingwuController) List() {
 	}
 
 	// keyword := c.GetString("keyword")
+	var PageSize = 3
 	keyword := `""`
 	pageIndex, _ := c.GetInt("page", 1)
 
@@ -82,13 +83,13 @@ func (c *QingwuController) List() {
 	if c.Member != nil {
 		memberId = c.Member.MemberId
 	}
-	searchResult, totalCount, err := models.RecentDocumentResult().FindToPager(keyword, pageIndex, conf.PageSize, memberId)
+	searchResult, totalCount, err := models.RecentDocumentResult().FindToPager(keyword, pageIndex, PageSize, memberId)
 
 	if err != nil {
 		return
 	}
 	if totalCount > 0 {
-		pager := pagination.NewPagination(c.Ctx.Request, totalCount, conf.PageSize,c.BaseUrl())
+		pager := pagination.NewPagination(c.Ctx.Request, totalCount, PageSize,c.BaseUrl())
 		c.Data["PageHtml"] = pager.HtmlPages()
 	} else {
 		c.Data["PageHtml"] = ""
