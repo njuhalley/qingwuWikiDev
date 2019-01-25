@@ -4,6 +4,3 @@
 [submodule "views"]
 	path = views
 	url = git://github.com/njuhalley/QingwuWIKI-views
-[submodule "uploads"]
-	path = uploads
-	url = git://github.com/njuhalley/uploads
