@@ -73,7 +73,7 @@ func (c *QingwuController) List() {
 	}
 
 	// keyword := c.GetString("keyword")
-	var PageSize = 3
+	var PageSize = 5
 	keyword := `""`
 	pageIndex, _ := c.GetInt("page", 1)
 
@@ -84,6 +84,8 @@ func (c *QingwuController) List() {
 		memberId = c.Member.MemberId
 	}
 	searchResult, totalCount, err := models.RecentDocumentResult().FindToPager(keyword, pageIndex, PageSize, memberId)
+	
+	totalCount = 5
 
 	if err != nil {
 		return
