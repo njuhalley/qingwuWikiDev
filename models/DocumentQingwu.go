@@ -76,7 +76,7 @@ FROM (
          LEFT JOIN md_members AS member ON blog.member_id = member.member_id
        WHERE blog.blog_status = 'public' AND (blog.blog_release LIKE ? OR blog.blog_title LIKE ?)
      ) AS union_table
-ORDER BY create_time DESC
+ORDER BY modify_time DESC
 LIMIT ?, ?;`
 
 		err = o.Raw(sql1, keyword, keyword).QueryRow(&totalCount)
@@ -164,7 +164,7 @@ FROM (
        WHERE (blog.blog_status = 'public' OR blog.member_id = ?) AND blog.blog_type = 0 AND
              (blog.blog_release LIKE ? OR blog.blog_title LIKE ?)
      ) AS union_table
-ORDER BY create_time DESC
+ORDER BY modify_time DESC
 LIMIT ?, ?;`
 
 		err = o.Raw(sql1, memberId, memberId, keyword, keyword).QueryRow(&totalCount)
