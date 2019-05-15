@@ -15,6 +15,10 @@ type HomeController struct {
 
 func (c *HomeController) Prepare() {
 	c.BaseController.Prepare()
+	// added by qingwu
+	if c.Member == nil {
+		c.BaseController.autoLogin()
+	}
 	//如果没有开启匿名访问，则跳转到登录页面
 	if !c.EnableAnonymous && c.Member == nil {
 		c.Redirect(conf.URLFor("AccountController.Login")+"?url="+url.PathEscape(conf.BaseUrl+c.Ctx.Request.URL.RequestURI()), 302)

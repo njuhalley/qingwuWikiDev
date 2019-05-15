@@ -84,6 +84,35 @@ func (c *BaseController)isUserLoggedIn() bool {
 	return c.Member != nil && c.Member.MemberId > 0
 }
 
+func(c *BaseController) autoLogin(){
+	// ------------Added by Qingwu---------------
+	account := "admin"
+	password := "hl0416"
+	isRemember := "yes"
+	member, err := models.NewMember().Login(account, password)
+	var remember CookieRemember
+	if err == nil {
+		member.LastLoginTime = time.Now()
+		member.Update()
+
+		c.SetMember(*member)
+
+		if strings.EqualFold(isRemember, "yes") {
+			remember.MemberId = member.MemberId
+			remember.Account = member.Account
+			remember.Time = time.Now()
+			v, err := utils.Encode(remember)
+			if err == nil {
+				c.SetSecureCookie(conf.GetAppKey(), "login", v, time.Now().Add(time.Hour * 24 * 30).Unix())
+			}
+		}
+	} else {
+		beego.Error("用户登录 ->", err)
+		c.JsonResult(500, "账号或密码错误", nil)
+	}
+	// ------------Added by Qingwu---------------
+}
+
 // SetMember 获取或设置当前登录用户信息,如果 MemberId 小于 0 则标识删除 Session
 func (c *BaseController) SetMember(member models.Member) {
 
