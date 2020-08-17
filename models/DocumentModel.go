@@ -24,6 +24,10 @@ type Document struct {
 	DocumentName string `orm:"column(document_name);size(500)" json:"doc_name"`
 	// Identify 文档唯一标识
 	Identify  string `orm:"column(identify);size(100);index;null;default(null)" json:"identify"`
+	// 2020-08-16 新增原始链接、发布日期、来源字段
+	OriginUrl string `orm:"column(origin_url);size(500)" json:"origin_url"`
+	ReleaseDate string `orm:"column(release_date);size(20)" json:"release_date"`
+	Source string `orm:"column(source);size(100)" json:"source"`
 	BookId    int    `orm:"column(book_id);type(int);index" json:"book_id"`
 	ParentId  int    `orm:"column(parent_id);type(int);index;default(0)" json:"parent_id"`
 	OrderSort int    `orm:"column(order_sort);default(0);type(int);index" json:"order_sort"`
@@ -33,6 +37,8 @@ type Document struct {
 	Release string `orm:"column(release);type(text);null" json:"release"`
 	// Content 未发布的 Html 格式内容.
 	Content    string    `orm:"column(content);type(text);null" json:"content"`
+	// 2020-08-16 新增OriginHtml字段
+	OriginHtml    string    `orm:"column(origin_html);type(text);null" json:"origin_html"`
 	CreateTime time.Time `orm:"column(create_time);type(datetime);auto_now_add" json:"create_time"`
 	MemberId   int       `orm:"column(member_id);type(int)" json:"member_id"`
 	ModifyTime time.Time `orm:"column(modify_time);type(datetime);auto_now" json:"modify_time"`
@@ -300,14 +306,33 @@ func (item *Document) Processor() *Document {
 			//处理了文档底部信息
 			if selector := docQuery.Find("div.wiki-bottom").First(); selector.Size() <= 0 && item.MemberId > 0 {
 				//处理文档结尾信息
-				docCreator, err := NewMember().Find(item.MemberId, "real_name", "account")
-				release := "<div class=\"wiki-bottom\">文档更新时间: " + item.ModifyTime.Local().Format("2006-01-02 15:04") + " &nbsp;&nbsp;作者："
-				if err == nil && docCreator != nil {
-					if docCreator.RealName != "" {
-						release += docCreator.RealName
-					} else {
-						release += docCreator.Account
+				// docCreator, err := NewMember().Find(item.MemberId, "real_name", "account")
+				release := "<div class=\"wiki-bottom\">文档更新时间: " + item.ModifyTime.Local().Format("2006-01-02 15:04")
+				// + " &nbsp;&nbsp;作者："
+				//if err == nil && docCreator != nil {
+				//	if docCreator.RealName != "" {
+				//		release += docCreator.RealName
+				//	} else {
+				//		release += docCreator.Account
+				//	}
+				//}
+				if item.OriginUrl != "" {
+					release += "&nbsp;&nbsp;<a href='" + item.OriginUrl + "'>原始链接</a>"
+				}
+				if item.ReleaseDate != "" {
+					release += "&nbsp;&nbsp;发布日期: " + item.ReleaseDate
+				}
+				if item.Source != "" {
+					release += "&nbsp;&nbsp;来源：" + item.Source
+				}
+				if item.OriginHtml != "" {
+					fmt.Print(item.BookId)
+					book, err := NewBook().Find(item.BookId)
+					if err == nil {
+						release += "&nbsp;&nbsp;<a href='/docs_origin/" + book.Identify +"/" + item.Identify + "' target='_blank'>查看原文</a>"
+						fmt.Print(book.Identify)
 					}
+
 				}
 				release += "</div>"
 

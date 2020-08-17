@@ -149,7 +149,7 @@ func (c *DocumentController) Read() {
 		}
 		data.DocTitle = doc.DocumentName
 		data.Body = doc.Release
-		data.Title = doc.DocumentName + " - Powered by MinDoc"
+		data.Title = doc.DocumentName + " - Powered by QingwuWIKI"
 		data.Version = doc.Version
 
 		c.JsonResult(0, "ok", data)
@@ -169,6 +169,72 @@ func (c *DocumentController) Read() {
 	c.Data["Result"] = template.HTML(tree)
 	c.Data["Title"] = doc.DocumentName
 	c.Data["Content"] = template.HTML(doc.Release)
+}
+
+// View Origin Html
+func (c *DocumentController) ViewOriginHtml() {
+	c.Prepare()
+
+	identify := c.Ctx.Input.Param(":key")  // book_id
+	token := c.GetString("token")
+	id := c.GetString(":id")  // doc_id
+
+	c.Data["DocumentId"] = id
+
+	if identify == "" || id == "" {
+		c.ShowErrorPage(404, "项目不存或已删除")
+	}
+
+	// 如果没有开启匿名访问则跳转到登录
+	if !c.EnableAnonymous && !c.isUserLoggedIn() {
+		promptUserToLogIn(c)
+		return
+	}
+
+	bookResult := c.isReadable(identify, token)
+
+	c.TplName = "document/view_origin_html.tpl"
+
+	doc := models.NewDocument()
+
+	if docId, err := strconv.Atoi(id); err == nil {
+		doc, err = doc.FromCacheById(docId)
+		if err != nil {
+			beego.Error("从缓存中读取文档时失败 ->", err)
+			c.ShowErrorPage(404, "文档不存在或已删除")
+		}
+	} else {
+		doc, err = doc.FromCacheByIdentify(id, bookResult.BookId)
+		if err != nil {
+			if err == orm.ErrNoRows {
+				c.ShowErrorPage(404, "文档不存在或已删除")
+			} else {
+				beego.Error("从缓存查询文档时出错 ->", err)
+				c.ShowErrorPage(500, "未知异常")
+			}
+		}
+	}
+
+	if doc.BookId != bookResult.BookId {
+		c.ShowErrorPage(404, "文档不存在或已删除")
+	}
+
+	// doc.Processor()
+
+	tree, err := models.NewDocument().CreateDocumentTreeForHtml(bookResult.BookId, doc.DocumentId)
+
+	if err != nil && err != orm.ErrNoRows {
+		beego.Error("生成项目文档树时出错 ->", err)
+
+		c.ShowErrorPage(500, "生成项目文档树时出错")
+	}
+
+	c.Data["Description"] = utils.AutoSummary(doc.Release, 120)
+
+	c.Data["Model"] = bookResult
+	c.Data["Result"] = template.HTML(tree)
+	c.Data["Title"] = "Origin HTML-" + doc.DocumentName
+	c.Data["Content"] = template.HTML(doc.OriginHtml)
 }
 
 // 编辑文档
@@ -252,6 +318,9 @@ func (c *DocumentController) Create() {
 	identify := c.GetString("identify")
 	docIdentify := c.GetString("doc_identify")
 	docName := c.GetString("doc_name")
+	docOriginUrl := c.GetString("doc_origin_url")  // 2020-08-16 新增原始链接字段
+	docReleaseDate := c.GetString("doc_release_date")  // 2020-08-16 新增发布日期字段
+	docSource := c.GetString("doc_source")  // 2020-08-16 新增来源字段
 	parentId, _ := c.GetInt("parent_id", 0)
 	docId, _ := c.GetInt("doc_id", 0)
 	isOpen, _ := c.GetInt("is_open", 0)
@@ -313,6 +382,9 @@ func (c *DocumentController) Create() {
 	document.Version = time.Now().Unix()
 	document.DocumentName = docName
 	document.ParentId = parentId
+	document.OriginUrl = docOriginUrl  // 原始链接
+	document.ReleaseDate = docReleaseDate  // 发布日期
+	document.Source = docSource  // 来源
 
 	if isOpen == 1 {
 		document.IsOpen = 1
@@ -699,6 +771,7 @@ func (c *DocumentController) Content() {
 	if c.Ctx.Input.IsPost() {
 		markdown := strings.TrimSpace(c.GetString("markdown", ""))
 		content := c.GetString("html")
+		originHtml := c.GetString("origin_html")  // 原始HTML
 		version, _ := c.GetInt64("version", 0)
 		isCover := c.GetString("cover")
 
@@ -737,6 +810,12 @@ func (c *DocumentController) Content() {
 
 		doc.Version = time.Now().Unix()
 		doc.Content = content
+		if originHtml != "not_set"{
+			// fmt.Print(originHtml)
+			doc.OriginHtml = originHtml
+		}else{
+			doc.OriginHtml = doc.OriginHtml
+		}
 
 		if err := doc.InsertOrUpdate(); err != nil {
 			beego.Error("InsertOrUpdate => ", err)
