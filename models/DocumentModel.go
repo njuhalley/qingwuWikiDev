@@ -28,6 +28,10 @@ type Document struct {
 	OriginUrl string `orm:"column(origin_url);size(500)" json:"origin_url"`
 	ReleaseDate string `orm:"column(release_date);size(20)" json:"release_date"`
 	Source string `orm:"column(source);size(100)" json:"source"`
+	// 2020-08-19 新增 MarkdownEditable字段
+	MarkdownEditable int `orm:"column(markdown_editable);type(int);default(1)" json:"markdown_editable"`
+	Labels string `orm:"column(labels);size(500)" json:"labels"`
+	IsStar    int           `orm:"column(is_star);type(int);default(0)" json:"is_star"`
 	BookId    int    `orm:"column(book_id);type(int);index" json:"book_id"`
 	ParentId  int    `orm:"column(parent_id);type(int);index;default(0)" json:"parent_id"`
 	OrderSort int    `orm:"column(order_sort);default(0);type(int);index" json:"order_sort"`
@@ -108,7 +112,7 @@ func (item *Document) InsertOrUpdate(cols ...string) error {
 				identify = book.Identify
 			}
 
-			item.Identify = fmt.Sprintf("%s-%s", identify, strconv.FormatInt(time.Now().UnixNano(), 32))
+			item.Identify = fmt.Sprintf("%s_%s", identify, strconv.FormatInt(time.Now().UnixNano(), 32))
 		}
 
 		if item.OrderSort == 0 {

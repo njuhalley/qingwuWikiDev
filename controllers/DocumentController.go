@@ -313,7 +313,7 @@ func (c *DocumentController) Edit() {
 	}
 }
 
-// 创建一个文档
+// 创建一个文档 更新时会展示更新信息
 func (c *DocumentController) Create() {
 	identify := c.GetString("identify")
 	docIdentify := c.GetString("doc_identify")
@@ -321,6 +321,9 @@ func (c *DocumentController) Create() {
 	docOriginUrl := c.GetString("doc_origin_url")  // 2020-08-16 新增原始链接字段
 	docReleaseDate := c.GetString("doc_release_date")  // 2020-08-16 新增发布日期字段
 	docSource := c.GetString("doc_source")  // 2020-08-16 新增来源字段
+	docLabels := c.GetString("doc_labels")  // 2020-08-19 新增标签字段
+	//fmt.Print(c.GetString("doc_is_star"))
+	isStar := strings.TrimSpace(c.GetString("doc_is_star")) == "on"  // 是否星标
 	parentId, _ := c.GetInt("parent_id", 0)
 	docId, _ := c.GetInt("doc_id", 0)
 	isOpen, _ := c.GetInt("is_open", 0)
@@ -385,6 +388,13 @@ func (c *DocumentController) Create() {
 	document.OriginUrl = docOriginUrl  // 原始链接
 	document.ReleaseDate = docReleaseDate  // 发布日期
 	document.Source = docSource  // 来源
+	document.Labels = docLabels  // 标签
+	if isStar {
+		document.IsStar = 1  // 星标
+	}else{
+		document.IsStar = 0  // 不星标
+	}
+
 
 	if isOpen == 1 {
 		document.IsOpen = 1
@@ -729,7 +739,23 @@ func (c *DocumentController) Delete() {
 	c.JsonResult(0, "ok")
 }
 
-// 获取文档内容
+// 发布
+func (c *DocumentController) ReleaseContent() {
+	docId, err := c.GetInt("doc_id")
+
+	if err != nil {
+		docId, _ = strconv.Atoi(c.Ctx.Input.Param(":id"))
+	}
+	doc, err := models.NewDocument().Find(docId)
+	err = doc.ReleaseContent()
+	err = doc.InsertOrUpdate()
+	if err == nil {
+		logs.Informational("文档手动发布成功 -> document_id=%d;document_name=%s", doc.DocumentId, doc.DocumentName)
+	}
+	c.JsonResult(0, "ok", doc)
+}
+
+// 获取文档内容 EditUrl  SaveDocument
 func (c *DocumentController) Content() {
 	c.Prepare()
 
