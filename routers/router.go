@@ -139,6 +139,7 @@ func init() {
 	beego.Router("/docs/:key/:id", &controllers.DocumentController{}, "*:Read")
 	beego.Router("/docs_origin/:key/:id", &controllers.DocumentController{}, "*:ViewOriginHtml")
 	beego.Router("/release_doc/:id", &controllers.DocumentController{}, "*:ReleaseContent")
+	beego.Router("/view_raw_doc/:id", &controllers.DocumentController{}, "*:ViewRawDoc")
 	beego.Router("/docs/:key/search", &controllers.DocumentController{}, "post:Search")
 	beego.Router("/export/:key", &controllers.DocumentController{}, "*:Export")
 	beego.Router("/qrcode/:key.png", &controllers.DocumentController{}, "get:QrCode")

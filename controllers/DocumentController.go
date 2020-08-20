@@ -324,6 +324,7 @@ func (c *DocumentController) Create() {
 	docLabels := c.GetString("doc_labels")  // 2020-08-19 新增标签字段
 	//fmt.Print(c.GetString("doc_is_star"))
 	isStar := strings.TrimSpace(c.GetString("doc_is_star")) == "on"  // 是否星标
+	markdownEditable, _ := c.GetInt("doc_markdown_editable", 1)  // 默认可编辑
 	parentId, _ := c.GetInt("parent_id", 0)
 	docId, _ := c.GetInt("doc_id", 0)
 	isOpen, _ := c.GetInt("is_open", 0)
@@ -389,6 +390,7 @@ func (c *DocumentController) Create() {
 	document.ReleaseDate = docReleaseDate  // 发布日期
 	document.Source = docSource  // 来源
 	document.Labels = docLabels  // 标签
+	document.MarkdownEditable = markdownEditable
 	if isStar {
 		document.IsStar = 1  // 星标
 	}else{
@@ -752,6 +754,17 @@ func (c *DocumentController) ReleaseContent() {
 	if err == nil {
 		logs.Informational("文档手动发布成功 -> document_id=%d;document_name=%s", doc.DocumentId, doc.DocumentName)
 	}
+	c.JsonResult(0, "ok", doc)
+}
+
+// 查看json
+func (c *DocumentController) ViewRawDoc() {
+	docId, err := c.GetInt("doc_id")
+
+	if err != nil {
+		docId, _ = strconv.Atoi(c.Ctx.Input.Param(":id"))
+	}
+	doc, err := models.NewDocument().Find(docId)
 	c.JsonResult(0, "ok", doc)
 }
 
