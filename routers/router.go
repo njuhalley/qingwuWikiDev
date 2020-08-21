@@ -137,6 +137,7 @@ func init() {
 
 	beego.Router("/docs/:key", &controllers.DocumentController{}, "*:Index")
 	beego.Router("/docs/:key/:id", &controllers.DocumentController{}, "*:Read")
+	beego.Router("/docs_by_book_id/:book_id/:id", &controllers.DocumentController{}, "*:ReadByBookId")
 	beego.Router("/docs_origin/:key/:id", &controllers.DocumentController{}, "*:ViewOriginHtml")
 	beego.Router("/release_doc/:id", &controllers.DocumentController{}, "*:ReleaseContent")
 	beego.Router("/view_raw_doc/:id", &controllers.DocumentController{}, "*:ViewRawDoc")
@@ -154,6 +155,9 @@ func init() {
 
 	beego.Router("/tag/:key", &controllers.LabelController{}, "get:Index")
 	beego.Router("/tags", &controllers.LabelController{}, "get:List")
+
+	beego.Router("/doc_label/:key", &controllers.DocumentLabelController{}, "get:Index")
+	beego.Router("/doc_labels", &controllers.DocumentLabelController{}, "get:List")
 
 	beego.Router("/items", &controllers.ItemsetsController{},"get:Index")
 	beego.Router("/items/:key", &controllers.ItemsetsController{},"get:List")

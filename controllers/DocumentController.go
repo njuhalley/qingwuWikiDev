@@ -171,6 +171,79 @@ func (c *DocumentController) Read() {
 	c.Data["Content"] = template.HTML(doc.Release)
 }
 
+func (c *DocumentController) ReadByBookId() {
+	c.Prepare()
+	bookId, _ := c.GetInt(":book_id", 0)
+	token := c.GetString("token")
+	id := c.GetString(":id")  // identify
+	c.Data["DocumentId"] = id
+	book, _ := models.NewBook().Find(bookId)
+
+	bookResult := c.isReadable(book.Identify, token)
+	c.TplName = fmt.Sprintf("document/%s_read.tpl", book.Theme)
+
+	doc := models.NewDocument()
+
+	if docId, err := strconv.Atoi(id); err == nil {
+		doc, err = doc.FromCacheById(docId)
+		if err != nil {
+			beego.Error("从缓存中读取文档时失败 ->", err)
+			c.ShowErrorPage(404, "文档不存在或已删除")
+		}
+	} else {
+		doc, err = doc.FromCacheByIdentify(id, book.BookId)
+		if err != nil {
+			if err == orm.ErrNoRows {
+				c.ShowErrorPage(404, "文档不存在或已删除")
+			} else {
+				beego.Error("从缓存查询文档时出错 ->", err)
+				c.ShowErrorPage(500, "未知异常")
+			}
+		}
+	}
+
+	if doc.BookId != book.BookId {
+		c.ShowErrorPage(404, "文档不存在或已删除")
+	}
+
+	doc.Processor()
+
+	attach, err := models.NewAttachment().FindListByDocumentId(doc.DocumentId)
+	if err == nil {
+		doc.AttachList = attach
+	}
+
+	if c.IsAjax() {
+		var data struct {
+			DocTitle string `json:"doc_title"`
+			Body     string `json:"body"`
+			Title    string `json:"title"`
+			Version  int64  `json:"version"`
+		}
+		data.DocTitle = doc.DocumentName
+		data.Body = doc.Release
+		data.Title = doc.DocumentName + " - Powered by QingwuWIKI"
+		data.Version = doc.Version
+
+		c.JsonResult(0, "ok", data)
+	}
+
+	tree, err := models.NewDocument().CreateDocumentTreeForHtml(book.BookId, doc.DocumentId)
+
+	if err != nil && err != orm.ErrNoRows {
+		beego.Error("生成项目文档树时出错 ->", err)
+
+		c.ShowErrorPage(500, "生成项目文档树时出错")
+	}
+
+	c.Data["Description"] = utils.AutoSummary(doc.Release, 120)
+
+	c.Data["Model"] = bookResult
+	c.Data["Result"] = template.HTML(tree)
+	c.Data["Title"] = doc.DocumentName
+	c.Data["Content"] = template.HTML(doc.Release)
+}
+
 // View Origin Html
 func (c *DocumentController) ViewOriginHtml() {
 	c.Prepare()

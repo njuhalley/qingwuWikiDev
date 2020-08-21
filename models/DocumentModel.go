@@ -101,6 +101,10 @@ func (item *Document) Find(id int) (*Document, error) {
 func (item *Document) InsertOrUpdate(cols ...string) error {
 	o := orm.NewOrm()
 	item.DocumentName = utils.StripTags(item.DocumentName)
+	// 更新 Labels
+	if item.Labels != "" {
+		go NewLabel().InsertOrUpdateMulti(item.Labels)
+	}
 	var err error
 	if item.DocumentId > 0 {
 		_, err = o.Update(item, cols...)
@@ -362,4 +366,46 @@ func (item *Document) Processor() *Document {
 		}
 	}
 	return item
+}
+
+
+// TODO: 分页全局搜索.  Doc的标签
+func (item *Document) FindForLabelToPager(keyword string, pageIndex, pageSize, memberId int) (docs []*DocumentResult, totalCount int, err error) {
+	o := orm.NewOrm()
+
+	keyword = "%" + keyword + "%"
+	offset := (pageIndex - 1) * pageSize
+	//如果是登录用户
+	if memberId > 0 {
+		sql1 := `SELECT COUNT(*) from md_documents where labels LIKE ?`
+//		sql1 := `SELECT COUNT(*)
+//FROM md_books AS book
+//  LEFT JOIN md_relationship AS rel ON rel.book_id = book.book_id AND rel.member_id = ?
+//  left join (select *
+//             from (select book_id,team_member_id,role_id
+//                   from md_team_relationship as mtr
+//                     left join md_team_member as mtm on mtm.team_id=mtr.team_id and mtm.member_id=? order by role_id desc )as t group by t.role_id,t.team_member_id,t.book_id) as team on team.book_id = book.book_id
+//WHERE (relationship_id > 0 OR book.privately_owned = 0 or team.team_member_id > 0) AND book.label LIKE ?`
+
+		err = o.Raw(sql1, keyword).QueryRow(&totalCount)
+		if err != nil {
+			return
+		}
+		//sql2 := `SELECT book.*,rel1.*,member.account AS create_name FROM md_books AS book
+		//	LEFT JOIN md_relationship AS rel ON rel.book_id = book.book_id AND rel.member_id = ?
+		//	left join (select * from (select book_id,team_member_id,role_id
+        //           	from md_team_relationship as mtr
+		//			left join md_team_member as mtm on mtm.team_id=mtr.team_id and mtm.member_id=? order by role_id desc )as t group by t.role_id,t.team_member_id,t.book_id) as team
+		//			on team.book_id = book.book_id
+		//	LEFT JOIN md_relationship AS rel1 ON rel1.book_id = book.book_id AND rel1.role_id = 0
+		//	LEFT JOIN md_members AS member ON rel1.member_id = member.member_id
+		//	WHERE (rel.relationship_id > 0 OR book.privately_owned = 0 or team.team_member_id > 0)
+		//	AND book.label LIKE ? ORDER BY order_index DESC ,book.book_id DESC LIMIT ?,?`
+		sql2 := `SELECT document_id, document_name, identify, book_id from md_documents where labels LIKE ? LIMIT ?,?`
+		_, err = o.Raw(sql2, keyword, offset, pageSize).QueryRows(&docs)
+
+		return
+
+	}
+	return
 }

@@ -7,31 +7,38 @@ import (
 	"github.com/astaxie/beego"
 )
 
-type Label struct {
+// TODO: 暂未用到
+// -------------------------------
+// *
+// * 区分针对Book和Doc的标签
+// *
+// -------------------------------
+
+type LabelBook struct {
 	LabelId    int    `orm:"column(label_id);pk;auto;unique;" json:"label_id"`
 	LabelName  string `orm:"column(label_name);size(50);unique" json:"label_name"`
-	DocNumber int    `orm:"column(doc_number)" json:"doc_number"`
+	BookNumber int    `orm:"column(book_number)" json:"book_number"`
 }
 
 // TableName 获取对应数据库表名.
-func (m *Label) TableName() string {
-	return "label"
+func (m *LabelBook) TableName() string {
+	return "label_book"
 }
 
 // TableEngine 获取数据使用的引擎.
-func (m *Label) TableEngine() string {
+func (m *LabelBook) TableEngine() string {
 	return "INNODB"
 }
 
-func (m *Label) TableNameWithPrefix() string {
+func (m *LabelBook) TableNameWithPrefix() string {
 	return conf.GetDatabasePrefix() + m.TableName()
 }
 
-func NewLabel() *Label {
-	return &Label{}
+func NewLabelBook() *LabelBook {
+	return &LabelBook{}
 }
 
-func (m *Label) FindFirst(field string, value interface{}) (*Label, error) {
+func (m *LabelBook) FindFirst(field string, value interface{}) (*LabelBook, error) {
 	o := orm.NewOrm()
 
 	err := o.QueryTable(m.TableNameWithPrefix()).Filter(field, value).One(m)
@@ -40,7 +47,7 @@ func (m *Label) FindFirst(field string, value interface{}) (*Label, error) {
 }
 
 //插入或更新标签.
-func (m *Label) InsertOrUpdate(labelName string) error {
+func (m *LabelBook) InsertOrUpdate(labelName string) error {
 	o := orm.NewOrm()
 
 	err := o.QueryTable(m.TableNameWithPrefix()).Filter("label_name", labelName).One(m)
@@ -48,11 +55,7 @@ func (m *Label) InsertOrUpdate(labelName string) error {
 		return err
 	}
 	count, _ := o.QueryTable(NewDocument().TableNameWithPrefix()).Filter("labels__icontains", labelName).Count()
-	if count == 0 {
-		m.DocNumber = 1
-	}else{
-		m.DocNumber = int(count)
-	}
+	m.BookNumber = int(count)
 	m.LabelName = labelName
 
 	if err == orm.ErrNoRows {
@@ -66,7 +69,7 @@ func (m *Label) InsertOrUpdate(labelName string) error {
 }
 
 //批量插入或更新标签.
-func (m *Label) InsertOrUpdateMulti(labels string) {
+func (m *LabelBook) InsertOrUpdateMulti(labels string) {
 	if labels != "" {
 		labelArray := strings.Split(labels, ",")
 
@@ -78,7 +81,7 @@ func (m *Label) InsertOrUpdateMulti(labels string) {
 	}
 }
 //删除标签
-func (m *Label) Delete() error {
+func (m *LabelBook) Delete() error {
 	o := orm.NewOrm()
 	_,err := o.Raw("DELETE FROM " + m.TableNameWithPrefix() + " WHERE label_id= ?",m.LabelId).Exec()
 
@@ -89,7 +92,7 @@ func (m *Label) Delete() error {
 }
 
 //分页查找标签.
-func (m *Label) FindToPager(pageIndex, pageSize int) (labels []*Label, totalCount int, err error) {
+func (m *LabelBook) FindToPager(pageIndex, pageSize int) (labels []*LabelBook, totalCount int, err error) {
 	o := orm.NewOrm()
 
 	count, err := o.QueryTable(m.TableNameWithPrefix()).Count()
