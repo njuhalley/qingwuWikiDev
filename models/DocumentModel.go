@@ -409,3 +409,25 @@ func (item *Document) FindForLabelToPager(keyword string, pageIndex, pageSize, m
 	}
 	return
 }
+
+// TODO: 分页 星标.
+func (item *Document) FindForStarToPager(bookId, pageIndex, pageSize, memberId int) (docs []*DocumentResult, totalCount int, err error) {
+	o := orm.NewOrm()
+
+	offset := (pageIndex - 1) * pageSize
+	//如果是登录用户
+	if memberId > 0 {
+		sql1 := `SELECT COUNT(*) from md_documents where book_id=? and is_star=1`
+
+		err = o.Raw(sql1, bookId).QueryRow(&totalCount)
+		if err != nil {
+			return
+		}
+		sql2 := `SELECT document_id, document_name, identify, book_id from md_documents where book_id=? and is_star=1 LIMIT ?,?`
+		_, err = o.Raw(sql2, bookId, offset, pageSize).QueryRows(&docs)
+
+		return
+
+	}
+	return
+}

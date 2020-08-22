@@ -158,6 +158,7 @@ func init() {
 
 	beego.Router("/doc_label/:key", &controllers.DocumentLabelController{}, "get:Index")
 	beego.Router("/doc_labels", &controllers.DocumentLabelController{}, "get:List")
+	beego.Router("/doc_star/:book_id", &controllers.DocumentStarController{}, "get:Index")
 
 	beego.Router("/items", &controllers.ItemsetsController{},"get:Index")
 	beego.Router("/items/:key", &controllers.ItemsetsController{},"get:List")
