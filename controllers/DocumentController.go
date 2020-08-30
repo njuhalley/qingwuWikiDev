@@ -397,6 +397,8 @@ func (c *DocumentController) Create() {
 	docLabels := c.GetString("doc_labels")  // 2020-08-19 新增标签字段
 	//fmt.Print(c.GetString("doc_is_star"))
 	isStar := strings.TrimSpace(c.GetString("doc_is_star")) == "on"  // 是否星标
+	isDoc := strings.TrimSpace(c.GetString("doc_is_doc")) == "on"  // 2020-08-30 新增 是否公文 字段
+	isResume := strings.TrimSpace(c.GetString("doc_is_resume")) == "on"  // 是否简历
 	markdownEditable, _ := c.GetInt("doc_markdown_editable", 1)  // 默认可编辑
 	parentId, _ := c.GetInt("parent_id", 0)
 	docId, _ := c.GetInt("doc_id", 0)
@@ -470,6 +472,17 @@ func (c *DocumentController) Create() {
 		document.IsStar = 0  // 不星标
 	}
 
+	if isDoc {  // 是否公文
+		document.IsDoc = 1
+	}else{
+		document.IsDoc = 0
+	}
+
+	if isResume {  // 是否简历
+		document.IsResume = 1
+	}else{
+		document.IsResume = 0
+	}
 
 	if isOpen == 1 {
 		document.IsOpen = 1

@@ -32,6 +32,8 @@ type Document struct {
 	MarkdownEditable int `orm:"column(markdown_editable);type(int);default(1)" json:"markdown_editable"`
 	Labels string `orm:"column(labels);size(500)" json:"labels"`
 	IsStar    int           `orm:"column(is_star);type(int);default(0)" json:"is_star"`
+	IsDoc     int           `orm:"column(is_doc);type(int);default(0)" json:"is_doc"`
+	IsResume  int           `orm:"column(is_resume);type(int);default(0)" json:"is_resume"`
 	BookId    int    `orm:"column(book_id);type(int);index" json:"book_id"`
 	ParentId  int    `orm:"column(parent_id);type(int);index;default(0)" json:"parent_id"`
 	OrderSort int    `orm:"column(order_sort);default(0);type(int);index" json:"order_sort"`
@@ -413,21 +415,53 @@ func (item *Document) FindForLabelToPager(keyword string, pageIndex, pageSize, m
 // TODO: 分页 星标.
 func (item *Document) FindForStarToPager(bookId, pageIndex, pageSize, memberId int) (docs []*DocumentResult, totalCount int, err error) {
 	o := orm.NewOrm()
-
 	offset := (pageIndex - 1) * pageSize
 	//如果是登录用户
 	if memberId > 0 {
 		sql1 := `SELECT COUNT(*) from md_documents where book_id=? and is_star=1`
-
 		err = o.Raw(sql1, bookId).QueryRow(&totalCount)
 		if err != nil {
 			return
 		}
 		sql2 := `SELECT document_id, document_name, identify, book_id from md_documents where book_id=? and is_star=1 LIMIT ?,?`
 		_, err = o.Raw(sql2, bookId, offset, pageSize).QueryRows(&docs)
-
 		return
+	}
+	return
+}
 
+// TODO: 分页 公文.
+func (item *Document) FindForIsDocToPager(bookId, pageIndex, pageSize, memberId int) (docs []*DocumentResult, totalCount int, err error) {
+	o := orm.NewOrm()
+	offset := (pageIndex - 1) * pageSize
+	//如果是登录用户
+	if memberId > 0 {
+		sql1 := `SELECT COUNT(*) from md_documents where book_id=? and is_doc=1`
+		err = o.Raw(sql1, bookId).QueryRow(&totalCount)
+		if err != nil {
+			return
+		}
+		sql2 := `SELECT document_id, document_name, identify, book_id from md_documents where book_id=? and is_doc=1 LIMIT ?,?`
+		_, err = o.Raw(sql2, bookId, offset, pageSize).QueryRows(&docs)
+		return
+	}
+	return
+}
+
+// TODO: 分页 简历.
+func (item *Document) FindForIsResumeToPager(bookId, pageIndex, pageSize, memberId int) (docs []*DocumentResult, totalCount int, err error) {
+	o := orm.NewOrm()
+	offset := (pageIndex - 1) * pageSize
+	//如果是登录用户
+	if memberId > 0 {
+		sql1 := `SELECT COUNT(*) from md_documents where book_id=? and is_resume=1`
+		err = o.Raw(sql1, bookId).QueryRow(&totalCount)
+		if err != nil {
+			return
+		}
+		sql2 := `SELECT document_id, document_name, identify, book_id from md_documents where book_id=? and is_resume=1 LIMIT ?,?`
+		_, err = o.Raw(sql2, bookId, offset, pageSize).QueryRows(&docs)
+		return
 	}
 	return
 }
