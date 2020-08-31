@@ -394,6 +394,7 @@ func (c *DocumentController) Create() {
 	docOriginUrl := c.GetString("doc_origin_url")  // 2020-08-16 新增原始链接字段
 	docReleaseDate := c.GetString("doc_release_date")  // 2020-08-16 新增发布日期字段
 	docSource := c.GetString("doc_source")  // 2020-08-16 新增来源字段
+	docNumber := c.GetString("doc_number")  // 2020-08-31 新增 编号 字段
 	docLabels := c.GetString("doc_labels")  // 2020-08-19 新增标签字段
 	//fmt.Print(c.GetString("doc_is_star"))
 	isStar := strings.TrimSpace(c.GetString("doc_is_star")) == "on"  // 是否星标
@@ -464,6 +465,7 @@ func (c *DocumentController) Create() {
 	document.OriginUrl = docOriginUrl  // 原始链接
 	document.ReleaseDate = docReleaseDate  // 发布日期
 	document.Source = docSource  // 来源
+	document.Number = docNumber  // 编号
 	document.Labels = docLabels  // 标签
 	document.MarkdownEditable = markdownEditable
 	if isStar {

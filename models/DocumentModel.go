@@ -28,6 +28,8 @@ type Document struct {
 	OriginUrl string `orm:"column(origin_url);size(500)" json:"origin_url"`
 	ReleaseDate string `orm:"column(release_date);size(20)" json:"release_date"`
 	Source string `orm:"column(source);size(100)" json:"source"`
+	// 2020-08-31 新增 编号 字段
+	Number string `orm:"column(number);size(100)" json:"number"`
 	// 2020-08-19 新增 MarkdownEditable字段
 	MarkdownEditable int `orm:"column(markdown_editable);type(int);default(1)" json:"markdown_editable"`
 	Labels string `orm:"column(labels);size(500)" json:"labels"`
