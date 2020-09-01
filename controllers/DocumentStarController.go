@@ -51,6 +51,7 @@ func (c *DocumentStarController) Index() {
 	}
 	c.Data["Lists"] = searchResult
 	c.Data["Model"] = book
+	c.Data["Remarks"] = "is_star"
 }
 
 //查看 为公文 的文档列表.

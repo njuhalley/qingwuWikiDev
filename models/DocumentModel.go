@@ -381,7 +381,7 @@ func (item *Document) FindForLabelToPager(keyword string, pageIndex, pageSize, m
 	offset := (pageIndex - 1) * pageSize
 	//如果是登录用户
 	if memberId > 0 {
-		sql1 := `SELECT COUNT(*) from md_documents where labels LIKE ?`
+		sql1 := `SELECT COUNT(*) from md_documents where labels LIKE ?`  // 排除掉公文库，否则查询很慢
 //		sql1 := `SELECT COUNT(*)
 //FROM md_books AS book
 //  LEFT JOIN md_relationship AS rel ON rel.book_id = book.book_id AND rel.member_id = ?
@@ -405,7 +405,7 @@ func (item *Document) FindForLabelToPager(keyword string, pageIndex, pageSize, m
 		//	LEFT JOIN md_members AS member ON rel1.member_id = member.member_id
 		//	WHERE (rel.relationship_id > 0 OR book.privately_owned = 0 or team.team_member_id > 0)
 		//	AND book.label LIKE ? ORDER BY order_index DESC ,book.book_id DESC LIMIT ?,?`
-		sql2 := `SELECT document_id, document_name, identify, book_id from md_documents where labels LIKE ? LIMIT ?,?`
+		sql2 := `SELECT document_id, document_name, identify, book_id from md_documents where labels LIKE ? LIMIT ?,?`  // 排除掉公文库
 		_, err = o.Raw(sql2, keyword, offset, pageSize).QueryRows(&docs)
 
 		return
