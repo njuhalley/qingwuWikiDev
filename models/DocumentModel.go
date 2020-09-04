@@ -374,48 +374,26 @@ func (item *Document) Processor() *Document {
 
 
 // TODO: 分页全局搜索.  Doc的标签
-func (item *Document) FindForLabelToPager(keyword string, pageIndex, pageSize, memberId int) (docs []*DocumentResult, totalCount int, err error) {
+func (item *Document) FindForLabelToPager(keyword string, pageIndex, pageSize, memberId int) (docs []*DocumentStarResult, totalCount int, err error) {
 	o := orm.NewOrm()
-
 	keyword = "%" + keyword + "%"
 	offset := (pageIndex - 1) * pageSize
 	//如果是登录用户
 	if memberId > 0 {
 		sql1 := `SELECT COUNT(*) from md_documents where labels LIKE ?`
-//		sql1 := `SELECT COUNT(*)
-//FROM md_books AS book
-//  LEFT JOIN md_relationship AS rel ON rel.book_id = book.book_id AND rel.member_id = ?
-//  left join (select *
-//             from (select book_id,team_member_id,role_id
-//                   from md_team_relationship as mtr
-//                     left join md_team_member as mtm on mtm.team_id=mtr.team_id and mtm.member_id=? order by role_id desc )as t group by t.role_id,t.team_member_id,t.book_id) as team on team.book_id = book.book_id
-//WHERE (relationship_id > 0 OR book.privately_owned = 0 or team.team_member_id > 0) AND book.label LIKE ?`
-
 		err = o.Raw(sql1, keyword).QueryRow(&totalCount)
 		if err != nil {
 			return
 		}
-		//sql2 := `SELECT book.*,rel1.*,member.account AS create_name FROM md_books AS book
-		//	LEFT JOIN md_relationship AS rel ON rel.book_id = book.book_id AND rel.member_id = ?
-		//	left join (select * from (select book_id,team_member_id,role_id
-        //           	from md_team_relationship as mtr
-		//			left join md_team_member as mtm on mtm.team_id=mtr.team_id and mtm.member_id=? order by role_id desc )as t group by t.role_id,t.team_member_id,t.book_id) as team
-		//			on team.book_id = book.book_id
-		//	LEFT JOIN md_relationship AS rel1 ON rel1.book_id = book.book_id AND rel1.role_id = 0
-		//	LEFT JOIN md_members AS member ON rel1.member_id = member.member_id
-		//	WHERE (rel.relationship_id > 0 OR book.privately_owned = 0 or team.team_member_id > 0)
-		//	AND book.label LIKE ? ORDER BY order_index DESC ,book.book_id DESC LIMIT ?,?`
-		sql2 := `SELECT document_id, document_name, identify, book_id from md_documents where labels LIKE ? LIMIT ?,?`
+		sql2 := `SELECT document_id, document_name, identify, book_id, parent_id from md_documents where labels LIKE ? LIMIT ?,?`
 		_, err = o.Raw(sql2, keyword, offset, pageSize).QueryRows(&docs)
-
 		return
-
 	}
 	return
 }
 
 // TODO: 分页 星标.
-func (item *Document) FindForStarToPager(bookId, pageIndex, pageSize, memberId int) (docs []*DocumentResult, totalCount int, err error) {
+func (item *Document) FindForStarToPager(bookId, pageIndex, pageSize, memberId int) (docs []*DocumentStarResult, totalCount int, err error) {
 	o := orm.NewOrm()
 	offset := (pageIndex - 1) * pageSize
 	//如果是登录用户
@@ -425,7 +403,7 @@ func (item *Document) FindForStarToPager(bookId, pageIndex, pageSize, memberId i
 		if err != nil {
 			return
 		}
-		sql2 := `SELECT document_id, document_name, identify, book_id from md_documents where book_id=? and is_star=1 LIMIT ?,?`
+		sql2 := `SELECT document_id, document_name, identify, book_id, parent_id from md_documents where book_id=? and is_star=1 LIMIT ?,?`
 		_, err = o.Raw(sql2, bookId, offset, pageSize).QueryRows(&docs)
 		return
 	}
@@ -433,7 +411,7 @@ func (item *Document) FindForStarToPager(bookId, pageIndex, pageSize, memberId i
 }
 
 // TODO: 分页 公文.
-func (item *Document) FindForIsDocToPager(bookId, pageIndex, pageSize, memberId int) (docs []*DocumentResult, totalCount int, err error) {
+func (item *Document) FindForIsDocToPager(bookId, pageIndex, pageSize, memberId int) (docs []*DocumentStarResult, totalCount int, err error) {
 	o := orm.NewOrm()
 	offset := (pageIndex - 1) * pageSize
 	//如果是登录用户
@@ -443,7 +421,7 @@ func (item *Document) FindForIsDocToPager(bookId, pageIndex, pageSize, memberId 
 		if err != nil {
 			return
 		}
-		sql2 := `SELECT document_id, document_name, identify, book_id from md_documents where book_id=? and is_doc=1 LIMIT ?,?`
+		sql2 := `SELECT document_id, document_name, identify, book_id, parent_id from md_documents where book_id=? and is_doc=1 LIMIT ?,?`
 		_, err = o.Raw(sql2, bookId, offset, pageSize).QueryRows(&docs)
 		return
 	}
@@ -451,7 +429,7 @@ func (item *Document) FindForIsDocToPager(bookId, pageIndex, pageSize, memberId 
 }
 
 // TODO: 分页 简历.
-func (item *Document) FindForIsResumeToPager(bookId, pageIndex, pageSize, memberId int) (docs []*DocumentResult, totalCount int, err error) {
+func (item *Document) FindForIsResumeToPager(bookId, pageIndex, pageSize, memberId int) (docs []*DocumentStarResult, totalCount int, err error) {
 	o := orm.NewOrm()
 	offset := (pageIndex - 1) * pageSize
 	//如果是登录用户
@@ -461,9 +439,48 @@ func (item *Document) FindForIsResumeToPager(bookId, pageIndex, pageSize, member
 		if err != nil {
 			return
 		}
-		sql2 := `SELECT document_id, document_name, identify, book_id from md_documents where book_id=? and is_resume=1 LIMIT ?,?`
+		sql2 := `SELECT document_id, document_name, identify, book_id, parent_id from md_documents where book_id=? and is_resume=1 LIMIT ?,?`
 		_, err = o.Raw(sql2, bookId, offset, pageSize).QueryRows(&docs)
 		return
+	}
+	return
+}
+
+// 查找父元素
+func (item *Document) FindForItemParents(documentList []*DocumentStarResult) (docs []*DocumentParentResult, err error){
+	o := orm.NewOrm()
+	for _, doc := range documentList {
+		// fmt.Println(doc.Identify)
+		pDoc := NewDocumentParentResult()
+		pDoc.Identify = doc.Identify
+		pDoc.BookId = doc.BookId
+		pDoc.DocumentId = doc.DocumentId
+		pDoc.DocumentName = doc.DocumentName
+
+		sql := `SELECT document_id, document_name, identify, book_id, parent_id from md_documents where document_id=?`
+		// 直接（一级）父元素
+		firstParentDoc := NewDocumentStarResult()
+		err = o.Raw(sql, doc.ParentId).QueryRow(&firstParentDoc)
+		pDoc.FirstParentDocId = firstParentDoc.DocumentId
+		pDoc.FirstParentDocIdentify = firstParentDoc.Identify
+		pDoc.FirstParentDocName = firstParentDoc.DocumentName
+
+		// 间接（二级）父元素
+		secondParentDoc := NewDocumentStarResult()
+		err = o.Raw(sql, firstParentDoc.ParentId).QueryRow(&secondParentDoc)
+		pDoc.SecondParentDocId = secondParentDoc.DocumentId
+		pDoc.SecondParentDocIdentify = secondParentDoc.Identify
+		pDoc.SecondParentDocName = secondParentDoc.DocumentName
+
+		// 三级父元素
+		thirdParentDoc := NewDocumentStarResult()
+		err = o.Raw(sql, secondParentDoc.ParentId).QueryRow(&thirdParentDoc)
+		pDoc.ThirdParentDocId = thirdParentDoc.DocumentId
+		pDoc.ThirdParentDocIdentify = thirdParentDoc.Identify
+		pDoc.ThirdParentDocName = thirdParentDoc.DocumentName
+		pDoc.ThirdParentPId = thirdParentDoc.ParentId
+
+		docs = append(docs, pDoc)
 	}
 	return
 }

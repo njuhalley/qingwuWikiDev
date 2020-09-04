@@ -49,7 +49,8 @@ func (c *DocumentStarController) Index() {
 	} else {
 		c.Data["PageHtml"] = ""
 	}
-	c.Data["Lists"] = searchResult
+	searchParentsResult, err := models.NewDocument().FindForItemParents(searchResult)  // 查找parents
+	c.Data["Lists"] = searchParentsResult
 	c.Data["Model"] = book
 	c.Data["Remarks"] = "is_star"
 }
@@ -80,7 +81,8 @@ func (c *DocumentStarController) IsDoc() {
 	} else {
 		c.Data["PageHtml"] = ""
 	}
-	c.Data["Lists"] = searchResult
+	searchParentsResult, err := models.NewDocument().FindForItemParents(searchResult)  // 查找parents
+	c.Data["Lists"] = searchParentsResult
 	c.Data["Model"] = book
 	c.Data["Remarks"] = "is_doc"
 }
@@ -111,7 +113,8 @@ func (c *DocumentStarController) IsResume() {
 	} else {
 		c.Data["PageHtml"] = ""
 	}
-	c.Data["Lists"] = searchResult
+	searchParentsResult, err := models.NewDocument().FindForItemParents(searchResult)  // 查找parents
+	c.Data["Lists"] = searchParentsResult
 	c.Data["Model"] = book
 	c.Data["Remarks"] = "is_resume"
 }

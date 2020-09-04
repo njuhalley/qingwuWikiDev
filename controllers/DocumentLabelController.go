@@ -61,8 +61,9 @@ func (c *DocumentLabelController) Index() {
 	} else {
 		c.Data["PageHtml"] = ""
 	}
-	c.Data["Lists"] = searchResult
-
+	searchParentsResult, err := models.NewDocument().FindForItemParents(searchResult)  // 查找parents
+	c.Data["Lists"] = searchParentsResult
+	// c.Data["Lists"] = searchResult
 	c.Data["LabelName"] = labelName
 }
 
